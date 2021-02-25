@@ -53,8 +53,8 @@ def find_homography(corr):
     """
     global POINTS
     # homo = []
-    pts_src = np.array(POINTS[1::2])
-    pts_dst = np.array(POINTS[::2])
+    pts_dst = np.array(POINTS[1::2])
+    pts_src = np.array(POINTS[::2])
     homo, _ = cv2.findHomography(pts_src, pts_dst, cv2.RANSAC, 5.0)
     return homo
 
@@ -69,18 +69,18 @@ if __name__ == "__main__":
     IMAGE2 = cv2.imread(IMAGE2_PATH)
     TEMP1 = IMAGE1.copy()
     TEMP2 = IMAGE2.copy()
-    CORR = get_correspondence(IMAGE1, IMAGE2)
+    CORR = get_correspondence(TEMP1, TEMP2)
     H = find_homography(CORR)
-    IMAGE_1 = cv2.warpPerspective(TEMP1, H, (IMAGE1.shape[1]
+    IMAGE_1 = cv2.warpPerspective(IMAGE1, H, (IMAGE1.shape[1]
                                              + IMAGE2.shape[1],
-                                             IMAGE1.shape[0]))
+                                             IMAGE1.shape[0]+IMAGE2.shape[0]))
     H_1, W_1 = IMAGE1.shape[:2]
     H_2, W_2 = IMAGE2.shape[:2]
-    RESULT = np.zeros((max(H_1, H_2), W_1+W_2, 3), dtype="uint8")
-    RESULT[0:H_2, 0:W_2] = TEMP2
-    RESULT[0:H_2, W_2:] = IMAGE_1[0:H_1, 0:W_1]
-    cv2.imshow("Image 1", IMAGE1)
-    cv2.imshow("Image 2", IMAGE2)
-    cv2.imshow("Result", RESULT)
+    # RESULT = np.zeros((max(H_1, H_2), W_1+W_2, 3), dtype="uint8")
+    IMAGE_1[0:H_2, 0:W_2] = IMAGE2
+    # RESULT[0:H_2, W_2:] = IMAGE_1[0:H_1, 0:W_1]
+    cv2.imshow("Image 1", TEMP1)
+    cv2.imshow("Image 2", TEMP2)
+    cv2.imshow("Result", IMAGE_1)
 
     cv2.waitKey(0)
