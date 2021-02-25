@@ -1,6 +1,6 @@
 import cv2
 import numpy as np 
-
+import matplolib.pyplot as plt
 i = 0
 img = cv2.imread('../data/obelisk.png')
 height, width, _ = img.shape 
@@ -52,8 +52,10 @@ while True:
 	## (2) make mask
 	pts = pts - pts.min(axis=0)
 	mask = np.zeros(croped.shape[:2], np.uint8)
-	cv2.drawContours(mask, [pts.astype(np.int)], -1, (255, 255, 255), -1, cv2.LINE_AA)
-
+        cv2.drawContours(mask, [pts.astype(np.int)], -1, (255, 255, 255), -1, cv2.LINE_AA)
+        #plt.figure()
+        #plt.imshow(mask)
+        #plt.show()
 	## (3) do bit-op
 	dst = cv2.bitwise_and(croped, croped, mask=mask)
 

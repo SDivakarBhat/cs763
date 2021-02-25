@@ -64,7 +64,7 @@ if __name__ == "__main__":
     cv2.polylines(TEMP, [np.array(POLY)], True, (0, 255, 0), 7)
     cv2.imshow('Image_Original', TEMP)
 
-    (TOP_LEFT, TOP_RIGHT, BOTTOM_RIGHT, BOTTOM_LEFT) = POLY
+    (TOP_LEFT, BOTTOM_RIGHT, TOP_RIGHT, BOTTOM_LEFT) = POLY	#corrected
     
     # possible to calculate the target width and height
     # But in this asssignment we are keeping it fixed to 400 and 600
